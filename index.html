@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset='utf-8'>
+        <title>4GAMER المضيف الجديد PSFREE بدون فلاش 9.00</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            @font-face {
+                font-family: 'logging';
+                src: url('fonts/LiberationMono-Regular.ttf');
+            }
+            #console {
+                font-family: 'logging';
+            }
+            .warning {
+                background-color: rgba(255, 0, 0, 0.2);
+                border: 1px solid red;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+                text-align: center;
+                color: white;
+            }
+            .success {
+                background-color: rgba(0, 255, 0, 0.2);
+                border: 1px solid green;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+                text-align: center;
+                color: white;
+            }
+        </style>
+        <script>
+            // توجيه المستخدم إلى صفحة التخزين المؤقت إذا لم يتم تخزينها مؤقتًا
+            if (window.applicationCache && window.applicationCache.status == 0) {
+                window.location.replace("cache.html");
+            }
+            
+            // التحقق من حالة الكولدهين عند تحميل الصفحة
+            window.addEventListener('load', function() {
+                checkGoldHENStatus();
+            });
+            
+            // وظيفة للتحقق من حالة الكولدهين
+            function checkGoldHENStatus() {
+                // محاولة الكشف عن وجود الكولدهين
+                if (window.localStorage.getItem('goldhen_activated') === 'true') {
+                    showSuccess();
+                    return true;
+                }
+                
+                // محاولة الكشف عن وجود الكولدهين من خلال خصائص النظام
+                try {
+                    // إضافة المزيد من طرق الكشف هنا إذا لزم الأمر
+                    if (window.goldhen_loaded === true) {
+                        showSuccess();
+                        return true;
+                    }
+                } catch (e) {
+                    // تجاهل الأخطاء
+                }
+                
+                return false;
+            }
+            
+            // وظيفة لإظهار رسالة النجاح
+            function showSuccess() {
+                document.getElementById('progress').style.display = 'none';
+                document.getElementById('menu').style.display = 'block';
+                document.getElementById('status_msg').innerHTML = "تم تفعيل GoldHEN بنجاح!<br>لا حاجة لإعادة التفعيل.";
+            }
+            
+            // وظيفة تُستدعى عند نجاح تفعيل الكولدهين
+            function goldhenSuccess() {
+                // تخزين حالة تفعيل الكولدهين
+                window.localStorage.setItem('goldhen_activated', 'true');
+                window.goldhen_loaded = true;
+                
+                showSuccess();
+            }
+            
+            // استبدال وظيفة allset الأصلية
+            window.allset = function() {
+                goldhenSuccess();
+            };
+            
+            // مراقبة التغييرات في DOM للكشف عن تفعيل الكولدهين
+            document.addEventListener('DOMNodeInserted', function(e) {
+                // البحث عن رسائل نجاح الكولدهين في النص
+                if (e.target && e.target.textContent) {
+                    const text = e.target.textContent.toLowerCase();
+                    if (text.includes('jailbreak has been successful') || 
+                        text.includes('goldhen') || 
+                        text.includes('تم تفعيل')) {
+                        goldhenSuccess();
+                    }
+                }
+            });
+            
+            // مراقبة الضغط على زر X للكشف عن تفعيل الكولدهين
+            document.addEventListener('keydown', function(e) {
+                // كود زر X هو 88
+                if (e.keyCode === 88 || e.key === 'x' || e.key === 'X') {
+                    // تأخير قصير للسماح بظهور شعار الكولدهين
+                    setTimeout(function() {
+                        goldhenSuccess();
+                    }, 500);
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <h1 id="msgs">4GAMER المضيف الجديد PSFREE بدون فلاش 9.00</h1>
+        <hr>
+        <div class="warning">
+            <strong>تنبيه هام:</strong> 
+            <ul style="text-align: right; list-style-position: inside;">
+                <li>قد تواجه مشكلة استقرار في أول مرة تفتح فيها الصفحة، يرجى إعادة تشغيل الجهاز والمحاولة مرة أخرى</li>
+                <li>الثغرة الجديدة لا تحتاج إلى فلاش USB</li>
+                <li>يتم تفعيل GoldHEN تلقائياً بعد ثوانٍ قليلة</li>
+            </ul>
+        </div>
+        <br>
+        <div id="progress">
+            <h1 id="msgs2" style="font-size: 30px;margin-top: 50px;margin-bottom: 300px;">جاري تحميل الجيلبريك، يرجى الانتظار بضع ثوانٍ...</h1>
+        </div>
+        <div id="menu" style="display: none">
+            <div class="success">
+                <h1 id="status_msg" style="font-size: 24px;color: yellow;margin-top: 20px;text-align: center;">تم تفعيل GoldHEN بنجاح!</h1>
+            </div>
+        </div>
+        <pre id='console'></pre>
+        <script src="payload.js"></script>
+        <script type='module' src='./alert.mjs'></script>
+    </body>
+</html>

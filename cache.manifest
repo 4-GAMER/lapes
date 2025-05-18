@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# v1.0.0 - 2025-05-18
+
+CACHE:
+index.html
+style.css
+img.jpg
+fonts/LiberationMono-Regular.ttf
+alert.mjs
+config.mjs
+lapse.mjs
+payload.bin
+payload.js
+psfree.mjs
+send.mjs
+about.html
+kpatch/kpatch.bin
+module/goldhen_2.4b18.3.bin
+rop/rop.js
+
+NETWORK:
+*
